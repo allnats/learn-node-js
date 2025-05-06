@@ -1,8 +1,15 @@
 const chalk = require("chalk")
 const getNotes = require("./notes.js")
 
-const msg = getNotes()
-console.log(`The message is: ${msg}`)
+const command = process.argv[2]
 
-const greenMsg = chalk.green.inverse(msg)
-console.log(greenMsg)
+// If command is empty, exit the program.
+if (command === undefined) {
+    process.exit()
+}
+
+if (command.toLowerCase() === "add") {
+    console.log("Note added!")
+} else if (command.toLowerCase() === "remove") {
+    console.log("Removing note!")
+}
