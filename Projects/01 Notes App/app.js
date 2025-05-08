@@ -1,39 +1,49 @@
 // Relative path always start with a 'dot slash'.
-const my_utils = require("./utils")
-const getNotes = require("./notes")
+const yargs = require("yargs")
 const validator = require("validator")
 const chalk = require("chalk")
-
-/* ES Module alternative
-
-import "./utils"
-
-*/
-
-const my_name = "Allendale"
-
-console.log(my_utils.name)
-console.log(my_utils.add(2, 3))
-console.log(getNotes())
-
-let some_email = "allendale@nato.com"
-let some_address = "example.com"
-
-const msg_ok = chalk.green.inverse
-const msg_fail = chalk.red.inverse
+const my_utils = require("./utils")
+const getNotes = require("./notes")
 
 
-console.log(
-    `Is ${some_email} a valid email address?`,
-    msg_ok(validator.isEmail(some_email))
-)
+// Set the version of your program.
+// You can display this with the --version flag.
+yargs.version("1.1.0")
 
-console.log(
-    `Is ${some_address} a valid email address?`,
-    msg_fail(validator.isEmail(some_address))
-)
+// Create add command
+yargs.command({
+    command: "add",
+    describe: "Adds a new note!",
+    handler: () => {
+        console.log("Adding a new note!")
+    }
+})
 
-console.log(
-    `Is ${some_address} a valid URL?`,
-    msg_ok(validator.isURL(some_address))
-)
+// Create remove comand.
+yargs.command({
+    command: "remove",
+    describe: "Removes a note!",
+    handler: function () {
+        console.log("Removing note!")
+    }
+})
+
+// Create list comand.
+yargs.command({
+    command: "list",
+    describe: "List your notes!",
+    handler: function () {
+        console.log("Listing notes!")
+    }
+})
+
+// Create read comand.
+yargs.command({
+    command: "read",
+    describe: "Read a note!",
+    handler: function () {
+        console.log("Reading note!")
+    }
+})
+
+console.log(yargs.argv)
