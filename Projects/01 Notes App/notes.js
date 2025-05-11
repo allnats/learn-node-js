@@ -1,7 +1,11 @@
 
 import { readFileSync, writeFileSync } from "fs"
 
-const getNotes = () => "Your notes..."
+const getNotes = () => {
+    const notes = loadNotes()
+    console.log(JSON.stringify(notes, null, 4))
+
+}
 
 
 const addNote = (title, body) => {
@@ -51,7 +55,16 @@ const removeNote = title => {
         console.log("Notes are empty! Nothing to remove.")
     }
 
-    
+    const new_notes = notes.filter((note, idx) => {
+        if (note.title !== title) {
+            return true
+        } else {
+            console.log(`${note.title} found at index ${idx}: REMOVED`)
+            return false
+        }
+    })
+
+    saveNotes(new_notes)
 
 }
 
