@@ -3,7 +3,7 @@ const yargs = require("yargs")
 const validator = require("validator")
 const chalk = require("chalk")
 const my_utils = require("./utils")
-const getNotes = require("./notes")
+const notes = require("./notes").default
 
 
 // Set the version of your program.
@@ -27,8 +27,7 @@ yargs.command({
         }
     },
     handler: (argv) => {
-        console.log(`Title: ${argv.title}`)
-        console.log(`Body: ${argv.body}`)
+        notes.addNote(argv.title, argv.body)
     }
 })
 
@@ -36,8 +35,15 @@ yargs.command({
 yargs.command({
     command: "remove",
     describe: "Removes a note!",
-    handler: function () {
-        console.log("Removing note!")
+    builder: {
+        title: {
+            describe: "Note's title",
+            demandOption: true,
+            type: "string"
+        }
+    },
+    handler: (argv) => {
+        notes.removeNote(argv.title)
     }
 })
 
