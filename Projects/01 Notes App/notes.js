@@ -20,15 +20,13 @@ const getNotes = () => {
 const addNote = (title, body) => {
     const notes = loadNotes()
 
-    const duplicateNotes = notes.filter((note) => {
-        return note.title === title
-    })
+    const duplicateNote = notes.find((note) => note.title === title)
 
-    if (duplicateNotes.length > 0) {
+    if (duplicateNote) {
         console.log(chalk.bgRed("ERROR: "), "Note title taken")
         return
     }
-
+    
     notes.push({
         title: title,
         body: body
@@ -83,8 +81,22 @@ const removeNote = title => {
 
 }
 
+const readNote = title => {
+    const notes = loadNotes()
+    const note = notes.find(note => note.title === title)
+
+    if (!note) {
+        console.log(chalk.bgRed("ERROR: "), `${title} not found.`)
+        return
+    }
+
+    console.log(chalk.bgBlue(`Title: ${note.title}`))
+    console.log(`Content: ${note.body}`)
+}
+
 export default {
     getNotes,
     addNote,
-    removeNote
+    removeNote,
+    readNote
 }
