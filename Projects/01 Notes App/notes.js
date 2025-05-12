@@ -4,8 +4,16 @@ import chalk from "chalk-new"
 
 const getNotes = () => {
     const notes = loadNotes()
-    console.log(JSON.stringify(notes, null, 2))
+    console.log(chalk.bgGreen("Fetching your notes..."))
 
+    // Pretty the notes' title and contents.
+    for (let idx in notes) {
+        console.log("=".repeat(40))
+        console.log(chalk.bgBlue(`Note #${Number(idx) + 1}`))
+        console.log(`${chalk.blue("Title")}: ${notes[idx].title}`)
+        console.log(`${chalk.blue("Content")} ${notes[idx].body}`)
+        console.log("=".repeat(40))
+    }
 }
 
 
@@ -48,7 +56,6 @@ const loadNotes = () => {
         return []
 
     }
-
 }
 
 const removeNote = title => {
