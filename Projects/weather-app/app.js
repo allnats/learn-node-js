@@ -5,13 +5,25 @@ const apiKey = utils.getAPIKey()
 
 const weatherStackURL = "https://api.weatherstack.com/current"
 const query = "Winnipeg"
-const apiReq = `${weatherStackURL}?access_key=${apiKey}&query=${query}`
+const apiReqURL = `${weatherStackURL}?access_key=${apiKey}&query=${query}`
 
-request(apiReq, (err, res) => {
+request({
+    url: apiReqURL, json: true
+}, (err, res) => {
     if (err) {
         console.log(err.message)
     } else {
-        const data = JSON.parse(res.body)
-        console.log(data)
+        
+        const currentLocation = res.body.location
+        const localtime = new Date(currentLocation.localtime)
+        const currentWeather = res.body.current
+
+        const output = [
+            `The weather in ${currentLocation.name}, ${currentLocation.region}`,
+            `at ${localtime.getHours()}:${localtime.getMinutes()}`,
+            `is ${currentWeather.temperature} degrees Celsius.\n`
+        ]
+
+        console.log(output.join(" "))
     }
 })
