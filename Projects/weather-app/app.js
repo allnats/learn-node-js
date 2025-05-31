@@ -19,7 +19,10 @@ request({
     url: weatherStackReq, json: true
 }, (err, res) => {
     if (err) {
+        console.log("ERROR: Unable to connect to the weather API.")
         console.log(err.message)
+    } else if (res.body.error) {
+        console.log("ERROR: Could not find weather API location.")
     } else {
         
         const currentLocation = res.body.location
@@ -41,6 +44,8 @@ request({
 }, (err, res) => {
     if (err) {
         console.log(err.message)
+    } else if (res.body.features.length === 0) {
+        console.log("ERROR: Could not find location coordinates.")
     } else {
         const result = res.body.features[0].properties
         const coordinates = result.coordinates
