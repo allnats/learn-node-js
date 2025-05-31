@@ -1,14 +1,22 @@
 import request from "postman-request"
 import utils from "./utils.js"
 
-const apiKey = utils.getAPIKey()
+const apiKeyFiles = utils.apiKeyFiles
+const weatherstackKey = utils.getAPIKey(apiKeyFiles.weatherstack)
+const mapboxKey = utils.getAPIKey(apiKeyFiles.mapbox)
+const query = "Winnipeg"
+
+const mapboxBaseURL = "https://api.mapbox.com/search/geocode/v6/forward"
+const mapboxResLimit = 2
+const mapboxReq = `${mapboxBaseURL}?q=${query}&limit=${mapboxResLimit}&access_token=${mapboxKey}`
 
 const weatherStackURL = "https://api.weatherstack.com/current"
-const query = "Winnipeg"
-const apiReqURL = `${weatherStackURL}?access_key=${apiKey}&query=${query}`
+const weatherStackReq = `${weatherStackURL}?access_key=${weatherstackKey}&query=${query}`
+
+
 
 request({
-    url: apiReqURL, json: true
+    url: weatherStackReq, json: true
 }, (err, res) => {
     if (err) {
         console.log(err.message)
@@ -25,5 +33,18 @@ request({
         ]
 
         console.log(output.join(" "))
+    }
+})
+
+request({
+    url:mapboxReq, json:true
+}, (err, res) => {
+    if (err) {
+        console.log(err.message)
+    } else {
+        const result = res.body.features[0].properties
+        const coordinates = result.coordinates
+        console.log(`Full address: ${result.full_address}`)
+        console.log(coordinates)
     }
 })

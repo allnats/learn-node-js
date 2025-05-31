@@ -1,6 +1,12 @@
 import { readFileSync } from "node:fs"
 
 const WEATHERSTACK_FILENAME = "weatherstack.apikey"
+const MAPBOX_FILENAME = "mapbox.apikey"
+
+const apiKeyFiles = {
+    weatherstack: WEATHERSTACK_FILENAME,
+    mapbox: MAPBOX_FILENAME
+}
 
 /**
  * 
@@ -24,4 +30,4 @@ const getAPIKey = (filename=WEATHERSTACK_FILENAME) => {
     return apiKey 
 }
 
-export default { getAPIKey }
+export default { getAPIKey, apiKeyFiles }
